@@ -17,6 +17,7 @@ def render():
     glLightfv(GL_LIGHT0, GL_POSITION,  (0, 0, 1, 0.0))
     glLightfv(GL_LIGHT0, GL_AMBIENT, (0.5, 0.5, 0.5, 1.0))
     glLightfv(GL_LIGHT0, GL_DIFFUSE, (0.5, 0.5, 0.5, 1.0))
+
     glEnable(GL_LIGHTING)
     glEnable(GL_COLOR_MATERIAL)
     glEnable(GL_DEPTH_TEST)
@@ -124,8 +125,13 @@ def render():
         glRotate(sol.rotation, 0, 0, 1)
         glTranslate(-1., 0., 0.)
 
-        glEnable(GL_LIGHT0)
+        
         #SATELITE
+        glLightfv(GL_LIGHT2, GL_POSITION,  (0, 0, 1, 0.0))
+        glLightfv(GL_LIGHT2, GL_AMBIENT, (0.25, 0.25, 0.25, 1.0))
+        glLightfv(GL_LIGHT2, GL_DIFFUSE, (0.25, 0.25, 0.25, 1.0))
+        glEnable(GL_LIGHT2)
+
         glTranslate(1, 2., 0.)
         glRotate(90, 1, 0, 0)
         glRotate(sol.rotation, 0, 1, 1)
@@ -135,8 +141,16 @@ def render():
         glRotate(-90, 1, 0, 0)
         glRotate(-sol.rotation, 0, 1, 1)
         glTranslate(-1., -2., 0.)
-        glDisable(GL_LIGHT0)
+        glDisable(GL_LIGHT2)
 
+        glLightfv(GL_LIGHT1, GL_POSITION,  (rx, rx, -100, 0.0))
+        glLightfv(GL_LIGHT1, GL_DIFFUSE, (0.5, 0.5, 0.5, 1.0))
+        glEnable(GL_LIGHT1)
+
+        glLightfv(GL_LIGHT3, GL_POSITION,  (0, 0, 1, 0.0))
+        glLightfv(GL_LIGHT3, GL_AMBIENT,  (0.1, 0.1, 0.1, 01.0))
+        glLightfv(GL_LIGHT3, GL_DIFFUSE, (0.2, 0.2, 0.2, 1.0))
+        glEnable(GL_LIGHT3)
         #glRotate(-planeta2.rx, 0, 1, 0)
         #glTranslate(-tx/20., -ty/20., + zpos)
         #glRotate(-ry, 1, 0, 0)
