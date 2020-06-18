@@ -1,2 +1,4 @@
-# ClumsySolarSystem
-PC2 COMPUTACIÓN GRAFICA
+# ClumsySolarSystem - PC2 COMPUTACIÓN GRAFICA
+Integrantes:
+-Franco Moloche
+-Sergio Villarruel 
