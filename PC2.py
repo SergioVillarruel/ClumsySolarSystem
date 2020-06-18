@@ -17,11 +17,10 @@ def render():
     glLightfv(GL_LIGHT0, GL_POSITION,  (0, 0, 1, 0.0))
     glLightfv(GL_LIGHT0, GL_AMBIENT, (0.5, 0.5, 0.5, 1.0))
     glLightfv(GL_LIGHT0, GL_DIFFUSE, (0.5, 0.5, 0.5, 1.0))
-    glEnable(GL_LIGHT0)
     glEnable(GL_LIGHTING)
     glEnable(GL_COLOR_MATERIAL)
     glEnable(GL_DEPTH_TEST)
-    #Sombreado suavecito
+
     glShadeModel(GL_SMOOTH)    
 
     sol = OBJ("sol/model.obj", swapyz=True)
@@ -111,7 +110,7 @@ def render():
         glPopMatrix()
 
         planeta2.rx += 1.5
-        #glRotate(planeta2.rx, 0, 1, 0)
+        glRotate(planeta2.rx, 0, 1, 0)
 
         #glRotate(rx, 0, 1, 0)
         #PLANETA 2
@@ -137,6 +136,7 @@ def render():
         glRotate(-sol.rotation, 0, 1, 1)
         glTranslate(-1., -2., 0.)
         glDisable(GL_LIGHT0)
+
         #glRotate(-planeta2.rx, 0, 1, 0)
         #glTranslate(-tx/20., -ty/20., + zpos)
         #glRotate(-ry, 1, 0, 0)
