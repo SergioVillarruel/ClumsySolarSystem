@@ -1,11 +1,12 @@
 import sys, pygame
+import numpy as np
 from pygame.locals import *
 from pygame.constants import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
-
-#Archivo para carjar objetos
 from obj_loader import *
+import math 
+
 def render():
     pygame.init()
     viewport = (1280,720)
@@ -13,8 +14,8 @@ def render():
     hy = viewport[1]/2
     srf = pygame.display.set_mode(viewport, OPENGL | DOUBLEBUF)
 
-    glLightfv(GL_LIGHT0, GL_POSITION,  (-40, 200, 100, 0.0))
-    glLightfv(GL_LIGHT0, GL_AMBIENT, (0.2, 0.2, 0.2, 1.0))
+    glLightfv(GL_LIGHT0, GL_POSITION,  (0, 0, 1, 0.0))
+    glLightfv(GL_LIGHT0, GL_AMBIENT, (0.5, 0.5, 0.5, 1.0))
     glLightfv(GL_LIGHT0, GL_DIFFUSE, (0.5, 0.5, 0.5, 1.0))
     glEnable(GL_LIGHT0)
     glEnable(GL_LIGHTING)
@@ -23,16 +24,24 @@ def render():
     #Sombreado suavecito
     glShadeModel(GL_SMOOTH)    
 
-    path = "sol/model.obj"
-    obj = OBJ(path, swapyz=True)
-    obj.generate()
+    sol = OBJ("sol/model.obj", swapyz=True)
+    sol.generate()
+
+    planeta = OBJ("covid/model.obj", swapyz=True)
+    planeta.generate()
+
+    planeta2 = OBJ("chicken/chicken.obj", swapyz=True)
+    planeta2.generate()
+
+    satelite = OBJ("egg/egg.obj", swapyz=True)
+    satelite.generate()
 
     clock = pygame.time.Clock()
 
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
     width, height = viewport
-    gluPerspective(90.0, width/float(height), 1, 300.0)
+    gluPerspective(90.0, width/float(height), 1., 150.0)
     glEnable(GL_DEPTH_TEST)
     glMatrixMode(GL_MODELVIEW)
 
@@ -72,10 +81,67 @@ def render():
         glLoadIdentity()
 
         # Renderizamos el objeto
+
         glTranslate(tx/20., ty/20., - zpos)
         glRotate(ry, 1, 0, 0)
+        rx += 1
         glRotate(rx, 0, 1, 0)
-        obj.render()
+        glEnable(GL_LIGHT0)
+        #SOL
+        sol.rotation += 3
+        glRotate(-90, 1, 0, 0)
+        glRotate(sol.rotation, 0, 0, 1)
+        sol.render()
+        glRotate(-sol.rotation, 0, 0, 1)
+        glRotate(90, 1, 0, 0)
+        glDisable(GL_LIGHT0)
+
+        glPushMatrix()
+        planeta.rx += 1
+        #glRotate(planeta.rx, 0, 1, 0)
+        #PLANETA 1
+        glTranslate(2, 0., 0.)
+        glRotate(sol.rotation, 0, 1, 0)
+        glScalef(0.5,0.5,0.5)
+        planeta.render()
+        glScalef(-0.5,-0.5,-0.5)
+        glRotate(-sol.rotation, 0, 1, 0)
+        glTranslate(-2., 0., 0.)
+        glRotate(-planeta.rx, 0, 1, 0)
+        glPopMatrix()
+
+        planeta2.rx += 1.5
+        #glRotate(planeta2.rx, 0, 1, 0)
+
+        #glRotate(rx, 0, 1, 0)
+        #PLANETA 2
+        glTranslate(1, 0., 0.)
+        glRotate(-90, 1, 0, 0)
+        glRotate(-sol.rotation, 0, 0, 1)
+        glScalef(0.2,0.2,0.2)
+        planeta2.render()
+        glScalef(1,1,1)
+        glRotate(90, 1, 0, 0)
+        glRotate(sol.rotation, 0, 0, 1)
+        glTranslate(-1., 0., 0.)
+
+        glEnable(GL_LIGHT0)
+        #SATELITE
+        glTranslate(1, 2., 0.)
+        glRotate(90, 1, 0, 0)
+        glRotate(sol.rotation, 0, 1, 1)
+        glScalef(3,3,3)
+        satelite.render()
+        glScalef(1,1,1)
+        glRotate(-90, 1, 0, 0)
+        glRotate(-sol.rotation, 0, 1, 1)
+        glTranslate(-1., -2., 0.)
+        glDisable(GL_LIGHT0)
+        #glRotate(-planeta2.rx, 0, 1, 0)
+        #glTranslate(-tx/20., -ty/20., + zpos)
+        #glRotate(-ry, 1, 0, 0)
+        #glRotate(-rx, 0, 1, 0)
+       
 
         pygame.display.flip()
 render()

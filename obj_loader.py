@@ -5,6 +5,8 @@ from OpenGL.GL import *
 
 class OBJ:
     generate_on_init = True
+    rotation = 0
+    rx = 0
     @classmethod
     def loadTexture(cls, imagefile):
         surf = pygame.image.load(imagefile)
