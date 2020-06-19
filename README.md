@@ -4,3 +4,5 @@ Integrantes:
 * Franco Moloche
 
 * Sergio Villarruel 
+
+* Daniel Nuñez
